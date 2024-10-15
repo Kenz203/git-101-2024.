@@ -206,3 +206,48 @@ white_wine |>
   facet_wrap(vars(`alcohol category`))
 ```
 
+## Agregation functions
+A.k.a. summary functions :turn a possibly long vector into a single value (still vector!)
+
+-standard statistics: `max`, `min`, `median` etc
+- logical operations: `any()`  and `all()`  
+- counts and rank: `n()` 
+
+### Simple summary use
+Based on  the `summarise()` 
+
+remark %>% and |> are rooughy the same
+```{r}
+white_wine|>
+  summarise(
+    med_alcohol = median(alcohol),
+    sd(alcohol)
+  )
+```
+```{r}
+white_wine |>
+  select(alcohol)|>
+  mutate(a_m_median = alcohol -median(alcohol),
+         .keep="none") #default behavior of mutate is to add new column and add previous columns, so keep none is don't keeep other columns
+```
+
+```{r}
+white_wine |>
+  select(alcohol) |>
+  mutate(
+    na = (alcohol-mean(alcohol))/sd(alcohol),
+    na_r = (alcohol -median(alcohol))/IQR(alcohol),
+         .keep="none"
+  )
+```
+
+```{r}
+white_wine |>
+  summarise(
+    mean(alcohol) |>
+    sd(alcohol),
+    IQR(alcohol),
+  )
+   
+```
+
