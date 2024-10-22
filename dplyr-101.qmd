@@ -475,3 +475,31 @@ diamonds|>
   mutate(prob=N/sum(N)) |>
   ungroup()
 ```
+
+
+## tidying data
+Dataset too long or too wide -> pivoting
+```{r}
+library(tidyr)
+```
+
+```{r}
+color_given_cut <-
+  diamonds|> 
+  group_by(cut, color)|>
+  summarise(N=n(),groups="drop_last")|>
+  mutate(prob=N/sum(N)) |>
+  ungroup()
+View(color_given_cut)
+```
+
+```{r}
+color_given_cut|> 
+  select(!N)|> 
+  pivot_wider(id_cols = cut,
+              names_from = color,
+              values_from = prob)
+
+```
+
+
