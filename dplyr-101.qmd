@@ -280,3 +280,27 @@ sugar_stats<-white_wine|>
   summarise(list(quantile(`residual sugar`)),
             mean(`residual sugar`)) 
 ```
+
+### Group by
+```{r}
+white_wine|>
+  summarise(median(`residual sugar`),
+            n(),
+           .by = quality)|>
+  arrange(quality)
+```
+```{r}
+white_wine|>
+  mutate(ha=alcohol >= 13) |>
+  summarise(median(`residual sugar`),
+            n(),
+           .by = ha)  
+```
+```{r}
+white_wine|>
+  mutate(alcohol_class=cut(alcohol, breaks=c(7, 9, 10, 12, 13, 15 ),
+                           ordered_result = TRUE))|>
+  summarise(median(`residual sugar`),
+            n(),
+           .by = alcohol_class)  
+```
